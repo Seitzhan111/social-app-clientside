@@ -1,8 +1,24 @@
+:root {
+    --primary-color: #5181B8;
+    --secondary-color: #224b7a;
+    --link-color: #2a5885;
+
+    --content-bg-color: #e7e8ec;
+    --color-bg-shadow-color: #d3d9de;
+    --light-blue-color: #DAE2EA;
+    --grey-color: #939393;
+
+
+    --header-bg-color: #4A76A8;
+    --header-bg-dark-color: #416a9a;
+}
+
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-size: 1.6rem;
+    font-size: 1.4rem;
 }
 
 body {
