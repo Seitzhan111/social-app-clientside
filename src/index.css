@@ -3,10 +3,14 @@
     --secondary-color: #224b7a;
     --link-color: #2a5885;
 
-    --content-bg-color: #e7e8ec;
-    --color-bg-shadow-color: #d3d9de;
+    --border-color: #e7e8ec;
+    --content-bg-color: #fff;
+    --border-shadow-color: #d3d9de;
+
     --light-blue-color: #DAE2EA;
     --grey-color: #939393;
+    --red-color: #E64646;
+    --dark-red-color: #DB3B3B;
 
 
     --header-bg-color: #4A76A8;
@@ -29,6 +33,10 @@ body {
 
 ul, ol {
     list-style-type: none;
+}
+
+input {
+    border: none;
 }
 
 a {
