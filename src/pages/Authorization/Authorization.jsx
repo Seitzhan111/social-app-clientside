@@ -1,18 +1,31 @@
 import React, {useState} from 'react';
 import { ReactComponent as VKLogo } from "../../assets/vectors/content-logo.svg";
-import styles from './Authorization.module.css';
 import {useForm} from "react-hook-form";
+import { InputField } from '../../components/ui';
+import * as yup from 'yup';
+import styles from './Authorization.module.css';
+import {yupResolver} from "@hookform/resolvers/yup";
 
 const Login = ({ setAuthType, onSubmit }) => {
     const switchAuth = () => {
         setAuthType('register');
     };
 
+    const loginSchema = yup.object().shape({
+        email: yup
+            .string()
+            .required('Обязательно напишите почту')
+            .email('Введите корректную почту'),
+        password: yup
+            .string()
+            .required('Обязательно напишите пароль'),
+    })
+
     const {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm({ mode: 'onSubmit' });
+    } = useForm({ mode: 'onSubmit', resolver: yupResolver(loginSchema) });
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className={styles['form']}>
@@ -23,36 +36,59 @@ const Login = ({ setAuthType, onSubmit }) => {
             <p className={styles['form-text']}>
                 Введите данные для входа в аккаунт
             </p>
-            <input type="email" placeholder='Почта' { ...register('email', {
-                required: 'Обязательно напишите почту',
-            }) }/>
-            {errors.email && <p className={styles['error']}>{errors.email.message}</p>}
-            <input type="password" placeholder='Пароль' { ...register('password', {
-                required: 'Обязательно напишите пароль',
-            }) }/>
-            {errors.password && <p className={styles['error']}>{errors.password.message}</p>}
+            <InputField
+                errorClassName={styles['error']}
+                label='Почта'
+                type="email"
+                register={register}
+                name='email'
+                errors={errors}
+            />
+            <InputField
+                errorClassName={styles['error']}
+                label='Пароль'
+                type="password"
+                register={register}
+                name='password'
+                errors={errors}
+            />
             <label className={styles['form-save']}>
                 <input type='checkbox' />
                 <span>Сохранить вход</span>
             </label>
             <button type='submit'>Вход</button>
-            <p className={styles['switch']} onClick={switchAuth}>Регистрация</p>
+            <p className={styles['switch']}>Создайте аккаунт, <span onClick={switchAuth}>Регистрация</span></p>
         </form>
     )
 }
 
 const Register = ({ setAuthType, onSubmit }) => {
-
     const switchAuth = () => {
         setAuthType('login')
     }
 
+    const registerSchema = yup.object().shape({
+        email: yup
+            .string()
+            .required('Обязательно напишите почту')
+            .email('Введите корректную почту'),
+        password: yup
+            .string()
+            .required('Обязательно напишите пароль')
+            .min(8, 'Длина пароля должна быть более 8 символов')
+            .max(16, 'Длина пароля должна быть менее 16 символов')
+            .matches(/^(?=.*\d)(?=.*[A-Z])[A-Za-z\d]{8,}$/, 'Пароль должен содержать хотя бы одну цифру и хотя бы одну заглавную букву'),
+        confirmPassword: yup
+            .string()
+            .required('Обязательно напишите пароль подтверждения')
+            .oneOf([yup.ref('password'), null], 'Ваши пароли не совпадают'),
+    })
+
     const {
         register,
         handleSubmit,
-        watch,
         formState: { errors },
-    } = useForm({ mode: 'onSubmit' });
+    } = useForm({ mode: 'onSubmit', resolver: yupResolver(registerSchema) });
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className={styles['form']}>
@@ -63,42 +99,39 @@ const Register = ({ setAuthType, onSubmit }) => {
             <p className={styles['form-text']}>
                 Ваша почта будет использована для входа в аккаунт
             </p>
-            <input type="email" placeholder='Почта' { ...register('email', {
-                required: 'Обязательно напишите почту',
-            }) }/>
-            {errors.email && <p className={styles['error']}>{errors.email.message}</p>}
-            <input type="password" placeholder='Пароль' { ...register('password', {
-                required: 'Обязательно напишите пароль',
-                minLength: {
-                    value: 8,
-                    message: 'Длина пароля должна быть более 8 символов',
-                },
-                maxLength: {
-                    value: 16,
-                    message: 'Длина пароля должна быть менее 16 символов',
-                },
-                pattern: {
-                    value: /^(?=.*\d)(?=.*[A-Z])[A-Za-z\d]{8,}$/,
-                    message: 'Пароль должен содержать хотя бы одну цифру и хотя бы одну заглавную букву',
-                }
-            }) }/>
-            {errors.password && <p className={styles['error']}>{errors.password.message}</p>}
-            <input type="password" placeholder='Подтвердите пароль' { ...register('confirmPassword', {
-                required: 'Обязательно напишите пароль подтверждения',
-                validate: (val) => val !== watch('password') ? 'Ваши пароли не совпадают' : null,
-            }) }/>
-            {errors.confirmPassword && <p className={styles['error']}>{errors.confirmPassword.message}</p>}
+            <InputField
+                errorClassName={styles['error']}
+                label='Почта'
+                type="email"
+                register={register}
+                name='email'
+                errors={errors}
+            />
+            <InputField
+                errorClassName={styles['error']}
+                label='Пароль'
+                type="password"
+                register={register}
+                name='password'
+                errors={errors}
+            />
+            <InputField
+                errorClassName={styles['error']}
+                label='Подтвердите пароль'
+                type="password"
+                register={register}
+                name='confirmPassword'
+                errors={errors}
+            />
             <label className={styles['form-save']}>
                 <input type='checkbox' />
                 <span>Сохранить вход</span>
             </label>
             <button type='submit'>Регистрация</button>
-            <p className={styles['switch']} onClick={switchAuth}>Вход</p>
+            <p className={styles['switch']}>Есть аккаунт, тогда совершите <span onClick={switchAuth}>Вход</span></p>
         </form>
     )
 }
-
-
 
 const Authorization = () => {
 

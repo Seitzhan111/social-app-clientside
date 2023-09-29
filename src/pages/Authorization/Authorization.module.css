@@ -45,7 +45,6 @@
     width: 4.8rem;
     height: 4.8rem;
     padding: .8rem;
-    width: fit-content;
     background-color: var(--primary-color);
     display: grid;
     place-items: center;
@@ -65,12 +64,15 @@
 }
 
 .switch {
-    color: var(--link-color);
-    cursor: pointer;
     font-size: 1.4rem;
 }
 
-.switch:hover {
+.switch span {
+    color: var(--link-color);
+    cursor: pointer;
+}
+
+.switch span:hover {
     text-decoration: underline;
 }
 
