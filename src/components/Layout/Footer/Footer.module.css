@@ -1,0 +1,46 @@
+.footer {
+    font-size: 1.3rem;
+    line-height: 1.76rem;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 3.5rem;
+    border-top: .1rem solid #DCE1E6;
+    padding: 2.6rem 0 4rem;
+}
+
+.copyright {
+    color: #6F7985;
+}
+
+.copyright span {
+    color: var(--link-color);
+}
+
+.links {
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+    color: var(--link-color);
+}
+
+.links a:hover {
+    color: var(--link-color);
+    text-decoration: underline;
+}
+
+.languages {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--link-color);
+}
+
+.languages a:hover {
+    color: var(--link-color);
+    text-decoration: underline;
+}

@@ -25,10 +25,25 @@
     font-size: 1.4rem;
 }
 
+html {
+    font-size: 62.5%;
+}
+
+html, body {
+    height: 100%;
+}
+
 body {
     font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-style: normal;
     background-color: #edeefe;
-    font-size: 62.2%;
+}
+
+img {
+    height: auto;
+    max-width: 100%;
+    object-fit: cover;
 }
 
 ul, ol {
@@ -37,6 +52,7 @@ ul, ol {
 
 input {
     border: none;
+    outline: none;
 }
 
 a {
@@ -49,9 +65,19 @@ button {
     border: none;
 }
 
+#root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+main {
+    flex: 1;
+}
 
 .container {
     max-width: 100rem;
+    width: 100%;
     margin: 0 auto;
     padding: 0 2rem;
 }
