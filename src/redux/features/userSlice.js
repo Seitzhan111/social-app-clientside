@@ -1,13 +1,66 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
+import axios from 'axios';
+
+export const registerUser = createAsyncThunk('user/register', async (data, {rejectWithValue}) => {
+   try {
+        const {saveSession, ...userData} = data
+        const response = await axios.post('http://localhost:4444/register', userData, {
+            headers: {'Content-Type': 'application/json'},
+        })
+        return {userResData: response.data, saveSession}
+   } catch (error) {
+        return rejectWithValue(error.response.data || error.message)
+   }
+})
+
+export const loginUser = createAsyncThunk('user/login', async (data, {rejectWithValue}) => {
+    try {
+        const {saveSession, ...userData} = data
+        const response = await axios.post('http://localhost:4444/login', userData, {
+        headers: {'Content-Type': 'application/json'},
+    })
+    return {userResData: response.data, saveSession}
+    } catch (error) {
+        return rejectWithValue(error.response.data || error.message)
+    }
+})
+
 
 
 const userSlice = createSlice({
     name: 'user',
     initialState: {
-        user: null,
+        user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null,
         status: 'idle',
+        error: null,
     },
     reducers: {},
+    extraReducers: (builder) => {
+        builder.addCase(registerUser.fulfilled, (state, action) => {
+            const {user, token} = action.payload
+            state.user = user;
+            state.status = 'success';
+            state.error = null;
+            localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('accessToken', JSON.stringify(token));
+        })
+        builder.addCase(registerUser.rejected, (state, action) => {
+            state.status = 'error'
+            state.error = action.payload || null
+        })
+        builder.addCase(loginUser.fulfilled, (state, action) => {
+            const {user, token} = action.payload
+            state.user = user;
+            state.status = 'success';
+            state.error = null;
+            localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('accessToken', JSON.stringify(token));
+        })
+        builder.addCase(loginUser.rejected, (state, action) => {
+            state.status = 'error'
+            state.error = action.payload || null
+        })
+    }
 });
 
 export default userSlice.reducer;
