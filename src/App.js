@@ -9,7 +9,7 @@ function App() {
       <>
           <Routes>
               <Route path="/" element={<Layout />}>
-                  <Route path='/home' element={<Home />} />
+                  <Route index element={<Home />} />
               </Route>
               <Route path='/auth' element={<Authorization />} />
           </Routes>

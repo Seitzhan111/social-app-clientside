@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import { ReactComponent as VKLogo } from "../../assets/vectors/content-logo.svg";
+import { ReactComponent as VKLogo } from "assets/vectors/content-logo.svg";
 import {useForm} from "react-hook-form";
-import { InputField } from '../../components/ui';
+import { InputField } from 'components/ui';
 import * as yup from 'yup';
 import {useDispatch, useSelector} from 'react-redux';
 import {yupResolver} from "@hookform/resolvers/yup";
 import styles from './Authorization.module.css';
-import { loginUser, registerUser } from '../../redux/features/userSlice';
+import { loginUser, registerUser } from 'redux/features/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 

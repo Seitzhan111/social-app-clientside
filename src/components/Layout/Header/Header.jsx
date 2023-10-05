@@ -1,12 +1,13 @@
 import React from 'react';
-import { ReactComponent as VKLogo } from "../../../assets/vectors/content-logo.svg";
-import {InputField} from "../../ui";
+import { ReactComponent as VKLogo } from "assets/vectors/content-logo.svg";
+import {InputField} from "components/ui";
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { IoIosArrowDown } from 'react-icons/io'
 import {HiSearch} from "react-icons/hi";
 import {BiSolidBell} from 'react-icons/bi'
 import styles from './Header.module.css'
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+
 
 
 

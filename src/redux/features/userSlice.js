@@ -25,6 +25,20 @@ export const loginUser = createAsyncThunk('user/login', async (data, {rejectWith
     }
 })
 
+//config states
+
+const userSetState = (payload) => {
+    const {userResData, saveSession} = payload
+    const {user, token} = userResData   
+    if (saveSession) {
+        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('accessToken', JSON.stringify(token));
+    } else {
+        sessionStorage.setItem('user', JSON.stringify(user));
+        sessionStorage.setItem('accessToken', JSON.stringify(token));
+    }
+    return user            
+}
 
 
 const userSlice = createSlice({
@@ -37,24 +51,18 @@ const userSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(registerUser.fulfilled, (state, action) => {
-            const {user, token} = action.payload
-            state.user = user;
-            state.status = 'success';
-            state.error = null;
-            localStorage.setItem('user', JSON.stringify(user));
-            localStorage.setItem('accessToken', JSON.stringify(token));
+            state.user = userSetState(action.payload);
+            state.status = 'succes';
+            state.error = null
         })
         builder.addCase(registerUser.rejected, (state, action) => {
             state.status = 'error'
             state.error = action.payload || null
         })
         builder.addCase(loginUser.fulfilled, (state, action) => {
-            const {user, token} = action.payload
-            state.user = user;
-            state.status = 'success';
-            state.error = null;
-            localStorage.setItem('user', JSON.stringify(user));
-            localStorage.setItem('accessToken', JSON.stringify(token));
+            state.user = userSetState(action.payload);
+            state.status = 'succes';
+            state.error = null
         })
         builder.addCase(loginUser.rejected, (state, action) => {
             state.status = 'error'
