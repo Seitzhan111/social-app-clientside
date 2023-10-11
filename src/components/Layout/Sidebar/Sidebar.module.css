@@ -1,5 +1,6 @@
 .content {
-    width: 16.9rem;
+    min-width: 16.9rem;
+    max-width: 16.9rem;
 }
 
 .menu {
@@ -18,7 +19,7 @@
 .menu__link {
     display: flex;
     align-items: center;
-    gap: .7rem;
+    /*gap: .7rem;*/
 }
 
 .menu__link:hover {

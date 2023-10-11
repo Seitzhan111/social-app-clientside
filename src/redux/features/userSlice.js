@@ -25,6 +25,20 @@ export const loginUser = createAsyncThunk('user/login', async (data, {rejectWith
     }
 })
 
+export const editUser = createAsyncThunk("user/edit", async ({userId, data}, {rejectedWithValue}) => {
+    try {
+        const accessToken = localStorage.getItem('accessToken')
+        const response = await axios.patch(`http://localhost:4444/users/${userId}`, data, {
+            headers: {
+                'Content-Type': 'application/json', Authorization: `Bearer ${accessToken}`,
+            },
+        })
+        return {userResData: response.data, saveSession: true}
+    } catch (error) {
+        return rejectedWithValue(error.response.data || error.message)
+    }
+})
+
 //config states
 
 const userSetState = (payload) => {
@@ -65,6 +79,15 @@ const userSlice = createSlice({
             state.error = null
         })
         builder.addCase(loginUser.rejected, (state, action) => {
+            state.status = 'error'
+            state.error = action.payload || null
+        })
+        builder.addCase(editUser.fulfilled, (state, action) => {
+            state.user = userSetState(action.payload);
+            state.status = 'succes';
+            state.error = null
+        })
+        builder.addCase(editUser.rejected, (state, action) => {
             state.status = 'error'
             state.error = action.payload || null
         })
